@@ -1,4 +1,5 @@
 type Nft @entity {
+  # {contractAddress}_{tokenId}
   id: ID!
   burnedAt: BigInt
   contract: NftContract!
@@ -10,6 +11,7 @@ type Nft @entity {
 }
 
 type NftContract @entity {
+  # {contractAddress}
   id: ID!
   name: String
   nfts: [Nft!]! @derivedFrom(field: "contract")
@@ -21,15 +23,17 @@ type NftContract @entity {
 }
 
 type Transfer @entity {
+  # {contractAddress}_{tokenId}_{from}_{to}_{timestamp}
   id: ID!
   from: Bytes!
-  to: Bytes!
   nft: Nft!
   quantity: BigInt!
   timestamp: BigInt!
+  to: Bytes!
 }
 
 type Ownership @entity {
+  # {contractAddress}_{tokenId}_{ownerAddress}
   id: ID!
   owner: Bytes!
   nft: Nft!

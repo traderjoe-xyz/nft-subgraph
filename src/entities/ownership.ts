@@ -2,7 +2,7 @@ import { Address, BigInt, store } from "@graphprotocol/graph-ts";
 import { Ownership } from "../../generated/schema";
 import { BIG_INT_ZERO } from "../constants";
 
-export function updateOwnership(
+export function upsertOwnership(
   nftId: string,
   owner: Address,
   deltaQuantity: BigInt

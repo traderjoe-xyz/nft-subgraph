@@ -17,7 +17,8 @@ import {
   ZERO_ADDRESS_STRING,
 } from "../constants";
 import { supportsInterface, normalize } from "../utils";
-import { updateOwnership } from "./ownership";
+import { upsertOwnership } from "./ownership";
+import { upsertTransfer } from "./transfer";
 
 export function transferBase(
   contractAddress: Address,
@@ -102,12 +103,12 @@ export function transferBase(
 
     if (from != ZERO_ADDRESS_STRING) {
       // Is existing NFT
-      updateOwnership(nftId, fromAddress, BIG_INT_ZERO.minus(value));
+      upsertOwnership(nftId, fromAddress, BIG_INT_ZERO.minus(value));
     } // else minting
 
     if (to != ZERO_ADDRESS_STRING) {
       // Either a transfer or mint
-      updateOwnership(nftId, toAddress, value);
+      upsertOwnership(nftId, toAddress, value);
 
       // Always perform this check since the tokenURI can change over time
       if (nftContract.supportsMetadata) {
@@ -133,8 +134,9 @@ export function transferBase(
       nft.burnedAt = timestamp;
       nftContract.numTokens = nftContract.numTokens.minus(BIG_INT_ONE);
     }
-
     nft.save();
+
+    upsertTransfer(nftId, fromAddress, toAddress, value, timestamp);
   }
   nftContract.save();
 }

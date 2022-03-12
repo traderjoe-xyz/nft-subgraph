@@ -1,4 +1,3 @@
-import { store } from "@graphprotocol/graph-ts";
 import { Transfer, ERC721 } from "../../generated/ERC721/ERC721";
 import { Nft, NftContract, Owner } from "../../generated/schema";
 import {
@@ -71,23 +70,24 @@ export function handleTransfer(event: Transfer): void {
       }
     } // else minting
 
+    let newOwner = Owner.load(to);
+    if (newOwner == null) {
+      newOwner = new Owner(to);
+      newOwner.numTokens = BIG_INT_ZERO;
+    }
+
+    let nft = Nft.load(nftId);
+    if (nft == null) {
+      nft = new Nft(nftId);
+      nft.contract = nftContract.id;
+      nft.mintedAt = event.block.timestamp;
+      nft.ownership = [];
+      nft.tokenID = tokenId;
+    }
+    nft.owner = newOwner.id;
+
     if (to != ZERO_ADDRESS_STRING) {
       // Either a transfer or mint
-      let newOwner = Owner.load(to);
-      if (newOwner == null) {
-        newOwner = new Owner(to);
-        newOwner.numTokens = BIG_INT_ZERO;
-      }
-
-      let nft = Nft.load(nftId);
-      if (nft == null) {
-        nft = new Nft(nftId);
-        nft.contract = nftContract.id;
-        nft.tokenID = tokenId;
-        nft.mintedAt = event.block.timestamp;
-        nft.ownership = [];
-      }
-
       let ownership = nft.ownership;
       ownership.push(event.params.to);
       nft.ownership = ownership;
@@ -105,16 +105,14 @@ export function handleTransfer(event: Transfer): void {
         nftContract.numTokens = nftContract.numTokens.plus(BIG_INT_ONE);
       }
 
-      nft.owner = newOwner.id;
-      nft.save();
-
       newOwner.numTokens = newOwner.numTokens.plus(BIG_INT_ONE);
       newOwner.save();
     } else {
-      // Burn
-      store.remove("Nft", nftId);
+      nft.burnedAt = event.block.timestamp;
       nftContract.numTokens = nftContract.numTokens.minus(BIG_INT_ONE);
     }
+
+    nft.save();
   }
   nftContract.save();
 }

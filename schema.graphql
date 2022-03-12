@@ -1,5 +1,6 @@
 type Nft @entity {
   id: ID!
+  burnedAt: BigInt
   contract: NftContract!
   mintedAt: BigInt!
   owner: Owner!

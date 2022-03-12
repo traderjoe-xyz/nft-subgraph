@@ -1,54 +1,26 @@
 specVersion: 0.0.2
-description: RocketJoe
+description: NFT
 schema:
   file: ./schema.graphql
 dataSources:
   - kind: ethereum/contract
-    name: RocketJoeFactory
+    name: ERC721
     network: rinkeby
     source:
-      address: "0x447636aC77d8dF5d92E4aB5fB06DA7158032b3bd"
-      abi: RocketJoeFactory
-      startBlock: 10098568
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.6
-      language: wasm/assemblyscript
-      file: ./src/mappings/rocketJoeFactory.ts
-      entities:
-        - LaunchEvent
-      abis:
-        - name: RocketJoeFactory
-          file: ./node_modules/@traderjoe-xyz/rocket-joe/abi/contracts/RocketJoeFactory.sol/RocketJoeFactory.json
-        - name: ERC20
-          file: ./node_modules/@traderjoe-xyz/rocket-joe/abi/@openzeppelin/contracts/token/ERC20/ERC20.sol/ERC20.json
-      eventHandlers:
-        - event: RJLaunchEventCreated(indexed address,indexed address,indexed address,uint256,uint256,uint256,address,uint256)
-          handler: handleRJLaunchEventCreated
-templates:
-  - kind: ethereum/contract
-    name: LaunchEvent
-    network: rinkeby
-    source:
-      abi: LaunchEvent
+      abi: ERC721
+      startBlock: 10029710
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
-        - LaunchEvent
-        - Deposit
-        - Withdrawal
+        - Nft
+        - NftContract
+        - Owner
       abis:
-        - name: LaunchEvent
-          file: ./node_modules/@traderjoe-xyz/rocket-joe/abi/contracts/LaunchEvent.sol/LaunchEvent.json
+        - name: ERC721
+          file: ./abis/ERC721.json
       eventHandlers:
-        - event: LaunchEventInitialized(uint256,uint256,uint256,uint256,uint256,uint256,uint256,uint256,uint256)
-          handler: handleLaunchEventInitialized
-        - event: AvaxEmergencyWithdraw(indexed address,uint256)
-          handler: handleAvaxEmergencyWithdraw
-        - event: UserParticipated(indexed address,uint256,uint256)
-          handler: handleUserParticipated
-        - event: UserWithdrawn(indexed address,uint256,uint256)
-          handler: handleUserWithdrawn
-      file: ./src/mappings/launchEvent.ts
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleTransfer
+      file: ./src/mappings/erc721.ts

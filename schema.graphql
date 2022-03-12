@@ -1,96 +1,24 @@
-# LaunchEvent
-type LaunchEvent @entity {
-  # issuer - token
+type Nft @entity {
+  contract: NftContract!
   id: ID!
-
-  # Phase starts 
-  phaseOneStartTime: BigInt! 
-  phaseTwoStartTime: BigInt!
-  phaseThreeStartTime: BigInt!
-
-  # issuer 
-  issuer: Bytes!
-
-  # issued token 
-  token: Bytes! 
-  tokenDecimals: BigInt!
-
-  # lifetime volume stats
-  volumeToken0: BigDecimal!
-  volumeToken1: BigDecimal!
-  txCount: BigInt!
-
-  # reserves
-  tokenReserve: BigDecimal!
-  avaxReserve: BigDecimal!
-
-  # token incentives
-  tokenIncentivesPercent: BigDecimal!
-  tokenIncentivesBalance: BigDecimal!
-
-  floorPrice: BigDecimal!
-
-  maxWithdrawPenalty: BigDecimal!
-  fixedWithdrawPenalty: BigDecimal!
-
-  userTimelock: BigInt!
-  issuerTimelock: BigInt!
-
-  # Launch event five minute data
-  fiveMinuteData: [LaunchEventFiveMinuteData!]! @derivedFrom(field: "launchEvent")
-
-  # Transactions 
-  deposits: [Deposit!]! @derivedFrom(field: "launchEvent")
-  withdraws: [Withdraw!]! @derivedFrom(field: "launchEvent")
-
-  # Created at
-  timestamp: BigInt!
+  mintedAt: BigInt!
+  owner: Owner!
+  ownership: [Bytes!]!
+  tokenID: BigInt!
+  tokenURI: String!
 }
 
-# Launch event five minute data
-type LaunchEventFiveMinuteData @entity {
-  # launchEvent.id - five minute interval start timestamp
+type NftContract @entity {
   id: ID!
-
-  # date - five minute interval start timestamp
-  date: Int!
-
-  # launch event
-  launchEvent: LaunchEvent!
-
-  # reserves
-  tokenReserve: BigDecimal!
-  avaxReserve: BigDecimal!
-
-  # tx count
-  txCount: BigInt!
+  name: String
+  symbol: String
+  nfts: [Nft!]! @derivedFrom(field: "contract")
+  numTokens: BigInt!
+  numOwners: BigInt!
 }
 
-# Deposit
-type Deposit @entity { 
-  # userAddress - timestamp
+type Owner @entity {
   id: ID!
-
-  userAddress: Bytes! 
-  launchEvent: LaunchEvent!
-  timestamp: BigInt!
-
-  # amount in AVAX
-  amount: BigDecimal!
-}
-
-# Withdraw
-type Withdraw @entity { 
-  # userAddress - timestamp
-  id: ID!
-
-  userAddress: Bytes! 
-  launchEvent: LaunchEvent!
-  timestamp: BigInt!
-
-  # amount in AVAX
-  amount: BigDecimal!
-
-  # amount of AVAX as penalty fee
-  penaltyAmount: BigDecimal! 
+  nfts: [Nft!]! @derivedFrom(field: "owner")
+  numTokens: BigInt!
 }

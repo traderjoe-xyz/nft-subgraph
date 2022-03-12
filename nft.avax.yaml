@@ -1,0 +1,50 @@
+specVersion: 0.0.2
+description: RocketJoe
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: RocketJoeFactory
+    network: rinkeby
+    source:
+      address: "0x0000000000000000000000000000000000000000"
+      abi: RocketJoeFactory
+      startBlock: 10029710
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      file: ./src/mappings/rocketJoeFactory.ts
+      entities:
+        - RocketJoeFactory
+      abis:
+        - name: RocketJoeFactory
+          file: ./abis/RocketJoeFactory.json
+      eventHandlers:
+        - event: RJLaunchEventCreated(indexed address,indexed address,uint256,uint256,uint256,address,uint256)
+          handler: handleRJLaunchEventCreated
+templates:
+  - kind: ethereum/contract
+    name: LaunchEvent
+    network: rinkeby
+    source:
+      abi: LaunchEvent
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - LaunchEvent
+        - Deposit
+        - Withdrawal
+      abis:
+        - name: LaunchEvent
+          file: ./abis/LaunchEvent.json
+      eventHandlers:
+        - event: AvaxEmergencyWithdraw(indexed address,uint256)
+          handler: handleAvaxEmergencyWithdraw
+        - event: UserParticipated(indexed address,uint256,uint256)
+          handler: handleUserParticipated
+        - event: UserWithdrawn(indexed address,uint256,uint256)
+          handler: handleUserWithdrawn
+      file: ./src/mappings/launchEvent.ts

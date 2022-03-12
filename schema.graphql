@@ -1,20 +1,21 @@
 type Nft @entity {
-  contract: NftContract!
   id: ID!
+  contract: NftContract!
   mintedAt: BigInt!
   owner: Owner!
   ownership: [Bytes!]!
   tokenID: BigInt!
-  tokenURI: String!
+  tokenURI: String
 }
 
 type NftContract @entity {
   id: ID!
   name: String
-  symbol: String
   nfts: [Nft!]! @derivedFrom(field: "contract")
-  numTokens: BigInt!
   numOwners: BigInt!
+  numTokens: BigInt!
+  supportsERC721Metadata: Boolean!
+  symbol: String
 }
 
 type Owner @entity {

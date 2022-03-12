@@ -3,8 +3,8 @@ type Nft @entity {
   burnedAt: BigInt
   contract: NftContract!
   mintedAt: BigInt!
-  owner: Owner!
-  ownership: [Bytes!]!
+  transfers: [Transfer!]! @derivedFrom(field: "nft")
+  ownership: [Ownership!]! @derivedFrom(field: "nft")
   tokenID: BigInt!
   tokenURI: String
 }
@@ -20,10 +20,20 @@ type NftContract @entity {
   type: NftType!
 }
 
-type Owner @entity {
+type Transfer @entity {
   id: ID!
-  nfts: [Nft!]! @derivedFrom(field: "owner")
-  numTokens: BigInt!
+  from: Bytes!
+  to: Bytes!
+  nft: Nft!
+  quantity: BigInt!
+  timestamp: BigInt!
+}
+
+type Ownership @entity {
+  id: ID!
+  owner: Bytes!
+  nft: Nft!
+  quantity: BigInt!
 }
 
 enum NftType {

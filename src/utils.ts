@@ -1,5 +1,5 @@
 import { Bytes } from "@graphprotocol/graph-ts";
-import { ERC721 } from "../../generated/ERC721/ERC721";
+import { ERC165 } from "../generated/ERC721/ERC165";
 
 export function toBytes(hexString: String): Bytes {
   let result = new Uint8Array(hexString.length / 2);
@@ -10,7 +10,7 @@ export function toBytes(hexString: String): Bytes {
 }
 
 export function supportsInterface(
-  contract: ERC721,
+  contract: ERC165,
   interfaceId: String,
   expected: boolean = true
 ): boolean {

@@ -16,7 +16,7 @@ export function upsertTransfer(
     "_" +
     toAddress.toHexString() +
     "_" +
-    timestamp;
+    timestamp.toString();
   let transfer = Transfer.load(transferId);
 
   if (transfer == null) {

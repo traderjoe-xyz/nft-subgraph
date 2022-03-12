@@ -18,3 +18,7 @@ export const ERC_721_IDENTIFIER = "80ac58cd";
 export const ERC_721_METADATA_IDENTIFIER = "5b5e139f";
 
 export const NULL_IDENTIFIER = "00000000";
+
+export const ERC721_TYPE = "ERC721";
+
+export const ERC1155_TYPE = "ERC1155";

@@ -1,13 +1,15 @@
 import { Transfer, ERC721 } from "../../generated/ERC721/ERC721";
 import { Nft, NftContract, Owner } from "../../generated/schema";
 import {
-  BIG_INT_ZERO,
   BIG_INT_ONE,
-  ZERO_ADDRESS_STRING,
+  BIG_INT_ZERO,
+  ERC1155_TYPE,
+  ERC721_TYPE,
   ERC_165_IDENTIFIER,
   ERC_721_IDENTIFIER,
   ERC_721_METADATA_IDENTIFIER,
   NULL_IDENTIFIER,
+  ZERO_ADDRESS_STRING,
 } from "./constants";
 import { supportsInterface, normalize } from "./utils";
 
@@ -44,7 +46,8 @@ export function handleTransfer(event: Transfer): void {
     }
 
     nftContract = new NftContract(contractAddress);
-    nftContract.supportsERC721Metadata = supportsInterface(
+    nftContract.type = ERC721_TYPE;
+    nftContract.supportsMetadata = supportsInterface(
       contract,
       ERC_721_METADATA_IDENTIFIER
     );

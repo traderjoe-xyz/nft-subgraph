@@ -15,12 +15,18 @@ type NftContract @entity {
   nfts: [Nft!]! @derivedFrom(field: "contract")
   numOwners: BigInt!
   numTokens: BigInt!
-  supportsERC721Metadata: Boolean!
+  supportsMetadata: Boolean!
   symbol: String
+  type: NftType!
 }
 
 type Owner @entity {
   id: ID!
   nfts: [Nft!]! @derivedFrom(field: "owner")
   numTokens: BigInt!
+}
+
+enum NftType {
+  ERC721
+  ERC1155
 }

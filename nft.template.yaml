@@ -16,7 +16,8 @@ dataSources:
       entities:
         - Nft
         - NftContract
-        - Owner
+        - Transfer
+        - Ownership
       abis:
         - name: ERC721
           file: ./abis/ERC721.json
@@ -39,7 +40,8 @@ dataSources:
       entities:
         - Nft
         - NftContract
-        - Owner
+        - Transfer
+        - Ownership
       abis:
         - name: ERC1155
           file: ./abis/ERC1155.json
@@ -52,4 +54,4 @@ dataSources:
           handler: handleTransferSingle
         - event: URI(string,indexed uint256)
           handler: handleURI
-      file: ./src/mappings/erc721.ts
+      file: ./src/mappings/erc1155.ts

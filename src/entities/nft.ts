@@ -2,7 +2,7 @@ import { Address, BigInt, store } from "@graphprotocol/graph-ts";
 import { ERC165 } from "../../generated/ERC721/ERC165";
 import { ERC721 } from "../../generated/ERC721/ERC721";
 import { ERC1155 } from "../../generated/ERC1155/ERC1155";
-import { Nft, NftContract, Ownership } from "../../generated/schema";
+import { Nft, NftContract } from "../../generated/schema";
 import {
   BIG_INT_ONE,
   BIG_INT_ZERO,

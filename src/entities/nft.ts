@@ -131,6 +131,7 @@ export function transferBase(
         nftContract.numTokens = nftContract.numTokens.plus(BIG_INT_ONE);
       }
     } else {
+      // Burn
       nft.burnedAt = timestamp;
       nftContract.numTokens = nftContract.numTokens.minus(BIG_INT_ONE);
     }

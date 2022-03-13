@@ -1,20 +1,14 @@
-import { Bytes } from "@graphprotocol/graph-ts";
+import { ByteArray, Bytes } from "@graphprotocol/graph-ts";
 import { ERC165 } from "../generated/ERC721/ERC165";
-
-export function toBytes(hexString: String): Bytes {
-  let result = new Uint8Array(hexString.length / 2);
-  for (let i = 0; i < hexString.length; i += 2) {
-    result[i / 2] = parseInt(hexString.substr(i, 2), 16) as u32;
-  }
-  return result as Bytes;
-}
 
 export function supportsInterface(
   contract: ERC165,
-  interfaceId: String,
+  interfaceId: string,
   expected: boolean = true
 ): boolean {
-  let supports = contract.try_supportsInterface(toBytes(interfaceId));
+  let supports = contract.try_supportsInterface(
+    Bytes.fromHexString(interfaceId)
+  );
   return !supports.reverted && supports.value == expected;
 }
 

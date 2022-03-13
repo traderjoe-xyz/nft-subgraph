@@ -10,11 +10,11 @@
     "codegen:rinkeby": "graph codegen nft.rinkeby.yaml",
     "build:avax": "graph build nft.avax.yaml",
     "build:rinkeby": "graph build nft.rinkeby.yaml",
-    "deploy:avax": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ traderjoe-xyz/joe-rocket-subgraphs nft.avax.yaml",
-    "deploy:rinkeby": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ traderjoe-xyz/rocket-rinkeby nft.rinkeby.yaml",
-    "create-local": "graph create --node http://localhost:8020/ traderjoe-xyz/nft --access-token ",
-    "remove-local": "graph remove --node http://localhost:8020/ traderjoe-xyz/nft --access-token ",
-    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 --access-token traderjoe-xyz/joe-rocket-subgraphs nft.fuji.yaml"
+    "deploy:avax": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ traderjoe-xyz/nft-contracts nft.avax.yaml",
+    "deploy:rinkeby": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ traderjoe-xyz/nft-contract-fuji nft.rinkeby.yaml",
+    "create-local": "graph create --node http://localhost:8020/ traderjoe-xyz/nft-contracts --access-token ",
+    "remove-local": "graph remove --node http://localhost:8020/ traderjoe-xyz/nft-contracts --access-token ",
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 --access-token traderjoe-xyz/nft-contracts nft.fuji.yaml"
   },
   "devDependencies": {
     "@graphprotocol/graph-ts": "^0.26.0",

@@ -5,13 +5,13 @@
   "author": "Trader Joe",
   "scripts": {
     "prepare:avax": "mustache config/avax.json nft.template.yaml > nft.avax.yaml",
-    "prepare:rinkeby": "mustache config/rinkeby.json nft.template.yaml > nft.rinkeby.yaml",
+    "prepare:fuji": "mustache config/fuji.json nft.template.yaml > nft.fuji.yaml",
     "codegen:avax": "graph codegen nft.avax.yaml",
-    "codegen:rinkeby": "graph codegen nft.rinkeby.yaml",
+    "codegen:fuji": "graph codegen nft.fuji.yaml",
     "build:avax": "graph build nft.avax.yaml",
-    "build:rinkeby": "graph build nft.rinkeby.yaml",
+    "build:fuji": "graph build nft.fuji.yaml",
     "deploy:avax": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ traderjoe-xyz/nft-contracts nft.avax.yaml",
-    "deploy:rinkeby": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ traderjoe-xyz/nft-contract-fuji nft.rinkeby.yaml",
+    "deploy:fuji": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ traderjoe-xyz/nft-contract-fuji nft.fuji.yaml",
     "create-local": "graph create --node http://localhost:8020/ traderjoe-xyz/nft-contracts --access-token ",
     "remove-local": "graph remove --node http://localhost:8020/ traderjoe-xyz/nft-contracts --access-token ",
     "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 --access-token traderjoe-xyz/nft-contracts nft.fuji.yaml"

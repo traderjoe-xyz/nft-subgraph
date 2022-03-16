@@ -1,3 +1,17 @@
+type _Schema_
+  @fulltext(
+    name: "nftSearch"
+    language: en
+    algorithm: rank
+    include: [
+      { entity: "Nft", fields: [{ name: "id" }, { name: "tokenURI" }] }
+      {
+        entity: "NftContract"
+        fields: [{ name: "id" }, { name: "name" }, { name: "symbol" }]
+      }
+    ]
+  )
+
 type Nft @entity {
   # {contractAddress}_{tokenId}
   id: ID!

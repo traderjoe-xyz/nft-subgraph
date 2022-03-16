@@ -1,4 +1,4 @@
-import { Address, BigInt, store } from "@graphprotocol/graph-ts";
+import { Address, BigInt, Bytes, store } from "@graphprotocol/graph-ts";
 import { ERC165 } from "../../generated/ERC721/ERC165";
 import { ERC721 } from "../../generated/ERC721/ERC721";
 import { ERC1155 } from "../../generated/ERC1155/ERC1155";
@@ -26,7 +26,8 @@ export function transferBase(
   toAddress: Address,
   tokenId: BigInt,
   value: BigInt,
-  timestamp: BigInt
+  timestamp: BigInt,
+  transactionHash: Bytes
 ): void {
   let contractAddressHexString = contractAddress.toHexString();
   let nftId = contractAddressHexString + "_" + tokenId.toString();
@@ -137,7 +138,14 @@ export function transferBase(
     }
     nft.save();
 
-    upsertTransfer(nftId, fromAddress, toAddress, value, timestamp);
+    upsertTransfer(
+      nftId,
+      fromAddress,
+      toAddress,
+      value,
+      timestamp,
+      transactionHash
+    );
   }
   nftContract.save();
 }

@@ -1,4 +1,4 @@
-import { Address, BigInt, store } from "@graphprotocol/graph-ts";
+import { Address, BigInt, Bytes, store } from "@graphprotocol/graph-ts";
 import { Transfer } from "../../generated/schema";
 import { BIG_INT_ZERO } from "../constants";
 
@@ -7,7 +7,8 @@ export function upsertTransfer(
   fromAddress: Address,
   toAddress: Address,
   quantity: BigInt,
-  timestamp: BigInt
+  timestamp: BigInt,
+  transactionHash: Bytes
 ): void {
   let transferId =
     nftId +
@@ -16,7 +17,7 @@ export function upsertTransfer(
     "_" +
     toAddress.toHexString() +
     "_" +
-    timestamp.toString();
+    transactionHash.toHexString();
   let transfer = Transfer.load(transferId);
 
   if (transfer == null) {
@@ -26,6 +27,7 @@ export function upsertTransfer(
     transfer.quantity = BIG_INT_ZERO;
     transfer.timestamp = timestamp;
     transfer.to = toAddress;
+    transfer.transactionHash = transactionHash;
   }
 
   let newQuantity = transfer.quantity.plus(quantity);

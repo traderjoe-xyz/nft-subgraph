@@ -23,13 +23,14 @@ type NftContract @entity {
 }
 
 type Transfer @entity {
-  # {contractAddress}_{tokenId}_{from}_{to}_{timestamp}
+  # {contractAddress}_{tokenId}_{from}_{to}_{transactionHash}
   id: ID!
   from: Bytes!
   nft: Nft!
   quantity: BigInt!
   timestamp: BigInt!
   to: Bytes!
+  transactionHash: Bytes!
 }
 
 type Ownership @entity {

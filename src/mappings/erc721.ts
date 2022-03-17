@@ -9,6 +9,7 @@ export function handleTransfer(event: Transfer): void {
     event.params.to,
     event.params.id,
     BIG_INT_ONE,
-    event.block.timestamp
+    event.block.timestamp,
+    event.transaction.hash
   );
 }

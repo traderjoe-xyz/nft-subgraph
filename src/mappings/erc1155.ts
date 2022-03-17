@@ -13,7 +13,8 @@ export function handleTransferSingle(event: TransferSingle): void {
     event.params._to,
     event.params._id,
     event.params._value,
-    event.block.timestamp
+    event.block.timestamp,
+    event.transaction.hash
   );
 }
 
@@ -31,7 +32,8 @@ export function handleTransferBatch(event: TransferBatch): void {
       event.params._to,
       ids[i],
       values[i],
-      event.block.timestamp
+      event.block.timestamp,
+      event.transaction.hash
     );
   }
 }

@@ -1,10 +1,9 @@
 type _Schema_
   @fulltext(
-    name: "nftSearch"
+    name: "nftContractSearch"
     language: en
     algorithm: rank
     include: [
-      { entity: "Nft", fields: [{ name: "id" }, { name: "tokenURI" }] }
       {
         entity: "NftContract"
         fields: [{ name: "id" }, { name: "name" }, { name: "symbol" }]

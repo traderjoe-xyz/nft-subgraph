@@ -145,33 +145,33 @@ export function transferBase(
         // Mint
         nftContract.numTokens = nftContract.numTokens.plus(BIG_INT_ONE);
       }
+
+      let toNftContractOwnerId = contractAddressHexString + "_" + to;
+      let toNftContractOwner = NftContractOwner.load(toNftContractOwnerId);
+      if (toNftContractOwner == null) {
+        toNftContractOwner = new NftContractOwner(toNftContractOwnerId);
+        toNftContractOwner.owner = toAddress;
+        toNftContractOwner.contract = contractAddressHexString;
+        toNftContractOwner.quantity = BIG_INT_ZERO;
+      }
+
+      // If `to` previously had 0 tokens from this NFT contract, increment
+      // the NFT contract's `numOwners` by one
+      if (
+        toNftContractOwner.quantity.equals(BIG_INT_ZERO) &&
+        value.gt(BIG_INT_ZERO)
+      ) {
+        nftContract.numOwners = nftContract.numOwners.plus(BIG_INT_ONE);
+      }
+
+      toNftContractOwner.quantity = toNftContractOwner.quantity.plus(value);
+      toNftContractOwner.save();
     } else {
       // Burn
       nft.burnedAt = timestamp;
       nftContract.numTokens = nftContract.numTokens.minus(BIG_INT_ONE);
     }
     nft.save();
-
-    let toNftContractOwnerId = contractAddressHexString + "_" + to;
-    let toNftContractOwner = NftContractOwner.load(toNftContractOwnerId);
-    if (toNftContractOwner == null) {
-      toNftContractOwner = new NftContractOwner(toNftContractOwnerId);
-      toNftContractOwner.owner = toAddress;
-      toNftContractOwner.contract = contractAddressHexString;
-      toNftContractOwner.quantity = BIG_INT_ZERO;
-    }
-
-    // If `to` previously had 0 tokens from this NFT contract, increment
-    // the NFT contract's `numOwners` by one
-    if (
-      toNftContractOwner.quantity.equals(BIG_INT_ZERO) &&
-      value.gt(BIG_INT_ZERO)
-    ) {
-      nftContract.numOwners = nftContract.numOwners.plus(BIG_INT_ONE);
-    }
-
-    toNftContractOwner.quantity = toNftContractOwner.quantity.plus(value);
-    toNftContractOwner.save();
 
     upsertTransfer(
       nftId,

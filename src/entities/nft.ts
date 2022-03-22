@@ -2,7 +2,7 @@ import { Address, BigInt, Bytes, store } from "@graphprotocol/graph-ts";
 import { ERC165 } from "../../generated/ERC721/ERC165";
 import { ERC721 } from "../../generated/ERC721/ERC721";
 import { ERC1155 } from "../../generated/ERC1155/ERC1155";
-import { Nft, NftContract } from "../../generated/schema";
+import { Nft, NftContract, NftContractOwner } from "../../generated/schema";
 import {
   BIG_INT_ONE,
   BIG_INT_ZERO,
@@ -104,17 +104,26 @@ export function transferBase(
 
     if (from != ZERO_ADDRESS_STRING) {
       // Is existing NFT
-      upsertOwnership(
-        nftContract,
-        nftId,
-        fromAddress,
-        BIG_INT_ZERO.minus(value)
+      upsertOwnership(nftId, fromAddress, BIG_INT_ZERO.minus(value));
+
+      let fromNftContractOwner = NftContractOwner.load(
+        contractAddressHexString + "_" + from
       );
+      if (fromNftContractOwner != null) {
+        // If `from` no longer has any tokens from this NFT contract, decrement
+        // the NFT contract's `numOwners` by one
+        if (value.ge(fromNftContractOwner.quantity)) {
+          nftContract.numOwners = nftContract.numOwners.minus(BIG_INT_ONE);
+        }
+        fromNftContractOwner.quantity =
+          fromNftContractOwner.quantity.minus(value);
+        fromNftContractOwner.save();
+      }
     } // else minting
 
     if (to != ZERO_ADDRESS_STRING) {
       // Either a transfer or mint
-      upsertOwnership(nftContract, nftId, toAddress, value);
+      upsertOwnership(nftId, toAddress, value);
 
       // Always perform this check since the tokenURI can change over time
       if (nftContract.supportsMetadata) {
@@ -142,6 +151,27 @@ export function transferBase(
       nftContract.numTokens = nftContract.numTokens.minus(BIG_INT_ONE);
     }
     nft.save();
+
+    let toNftContractOwnerId = contractAddressHexString + "_" + to;
+    let toNftContractOwner = NftContractOwner.load(toNftContractOwnerId);
+    if (toNftContractOwner == null) {
+      toNftContractOwner = new NftContractOwner(toNftContractOwnerId);
+      toNftContractOwner.owner = toAddress;
+      toNftContractOwner.contract = contractAddressHexString;
+      toNftContractOwner.quantity = BIG_INT_ZERO;
+    }
+
+    // If `to` previously had 0 tokens from this NFT contract, increment
+    // the NFT contract's `numOwners` by one
+    if (
+      toNftContractOwner.quantity.equals(BIG_INT_ZERO) &&
+      value.gt(BIG_INT_ZERO)
+    ) {
+      nftContract.numOwners = nftContract.numOwners.plus(BIG_INT_ONE);
+    }
+
+    toNftContractOwner.quantity = toNftContractOwner.quantity.plus(value);
+    toNftContractOwner.save();
 
     upsertTransfer(
       nftId,

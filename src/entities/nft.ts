@@ -104,12 +104,17 @@ export function transferBase(
 
     if (from != ZERO_ADDRESS_STRING) {
       // Is existing NFT
-      upsertOwnership(nftId, fromAddress, BIG_INT_ZERO.minus(value));
+      upsertOwnership(
+        nftContract,
+        nftId,
+        fromAddress,
+        BIG_INT_ZERO.minus(value)
+      );
     } // else minting
 
     if (to != ZERO_ADDRESS_STRING) {
       // Either a transfer or mint
-      upsertOwnership(nftId, toAddress, value);
+      upsertOwnership(nftContract, nftId, toAddress, value);
 
       // Always perform this check since the tokenURI can change over time
       if (nftContract.supportsMetadata) {

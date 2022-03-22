@@ -54,6 +54,14 @@ type Ownership @entity {
   quantity: BigInt!
 }
 
+type NftContractOwner @entity {
+  # {contractAddress}_{owner}
+  id: ID!
+  owner: Bytes!
+  contract: NftContract!
+  quantity: BigInt!
+}
+
 enum NftType {
   ERC721
   ERC1155

@@ -12,7 +12,7 @@
     "build:fuji": "graph build nft.fuji.yaml",
     "deploy:avax": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ traderjoe-xyz/nft-contracts nft.avax.yaml",
     "deploy:fuji": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ traderjoe-xyz/nft-contract-fuji nft.fuji.yaml",
-    "create-local": "graph create --node http://localhost:8020/ traderjoe-xyz/nft-contracts",
+    "create-local": "graph create --node http://localhost:8020/ traderjoe-xyz/nft-contracts nft.avax.yaml",
     "remove-local": "graph remove --node http://localhost:8020/ traderjoe-xyz/nft-contracts",
     "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 traderjoe-xyz/nft-contracts nft.avax.yaml"
   },

@@ -100,6 +100,21 @@ export function transferBase(
       nft.contract = nftContract.id;
       nft.mintedAt = timestamp;
       nft.tokenID = tokenId;
+
+      if (nftContract.supportsMetadata) {
+        if (nftContract.type == ERC721_TYPE) {
+          let metadataURI = erc721Contract.try_tokenURI(tokenId);
+          if (!metadataURI.reverted) {
+            nft.tokenURI = normalize(metadataURI.value);
+          }
+        } else {
+          // Must be ERC1155
+          let metadataURI = erc1155Contract.try_uri(tokenId);
+          if (!metadataURI.reverted) {
+            nft.tokenURI = normalize(metadataURI.value);
+          }
+        }
+      }
     }
 
     if (from != ZERO_ADDRESS_STRING) {
@@ -129,22 +144,6 @@ export function transferBase(
     if (to != ZERO_ADDRESS_STRING) {
       // Either a transfer or mint
       upsertOwnership(nftId, toAddress, value, transactionHash);
-
-      // Always perform this check since the tokenURI can change over time
-      if (nftContract.supportsMetadata) {
-        if (nftContract.type == ERC721_TYPE) {
-          let metadataURI = erc721Contract.try_tokenURI(tokenId);
-          if (!metadataURI.reverted) {
-            nft.tokenURI = normalize(metadataURI.value);
-          }
-        } else {
-          // Must be ERC1155
-          let metadataURI = erc1155Contract.try_uri(tokenId);
-          if (!metadataURI.reverted) {
-            nft.tokenURI = normalize(metadataURI.value);
-          }
-        }
-      }
 
       if (from == ZERO_ADDRESS_STRING) {
         // Mint

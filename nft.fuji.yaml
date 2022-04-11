@@ -10,7 +10,6 @@ dataSources:
     network: fuji
     source:
       abi: ERC721
-      startBlock: 10029710
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -34,7 +33,6 @@ dataSources:
     network: fuji
     source:
       abi: ERC1155
-      startBlock: 10029710
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6

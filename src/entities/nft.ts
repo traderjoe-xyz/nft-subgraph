@@ -104,7 +104,12 @@ export function transferBase(
 
     if (from != ZERO_ADDRESS_STRING) {
       // Is existing NFT
-      upsertOwnership(nftId, fromAddress, BIG_INT_ZERO.minus(value));
+      upsertOwnership(
+        nftId,
+        fromAddress,
+        BIG_INT_ZERO.minus(value),
+        transactionHash
+      );
 
       let fromNftContractOwner = NftContractOwner.load(
         contractAddressHexString + "-" + from
@@ -123,7 +128,7 @@ export function transferBase(
 
     if (to != ZERO_ADDRESS_STRING) {
       // Either a transfer or mint
-      upsertOwnership(nftId, toAddress, value);
+      upsertOwnership(nftId, toAddress, value, transactionHash);
 
       // Always perform this check since the tokenURI can change over time
       if (nftContract.supportsMetadata) {

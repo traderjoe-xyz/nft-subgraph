@@ -1,11 +1,12 @@
-import { Address, BigInt, store } from "@graphprotocol/graph-ts";
+import { Address, BigInt, Bytes, store } from "@graphprotocol/graph-ts";
 import { Ownership } from "../../generated/schema";
 import { BIG_INT_ZERO } from "../constants";
 
 export function upsertOwnership(
   nftId: string,
   owner: Address,
-  deltaQuantity: BigInt
+  deltaQuantity: BigInt,
+  transactionHash: Bytes
 ): void {
   let ownershipId = nftId + "-" + owner.toHexString();
   let ownership = Ownership.load(ownershipId);
@@ -19,8 +20,11 @@ export function upsertOwnership(
 
   let newQuantity = ownership.quantity.plus(deltaQuantity);
 
-  // TODO: Should we throw error if newQuantity < 0?
-  if (newQuantity.isZero() || newQuantity.lt(BIG_INT_ZERO)) {
+  if (newQuantity.lt(BIG_INT_ZERO)) {
+    throw new Error(
+      `Received negative quantity while upsertingOwnership for owner ${owner.toHexString()} and NFT ${nftId} in txn ${transactionHash.toHexString()}`
+    );
+  } else if (newQuantity.isZero()) {
     store.remove("Ownership", ownershipId);
   } else {
     ownership.quantity = newQuantity;

@@ -7,7 +7,7 @@ export function upsertOwnership(
   owner: Address,
   deltaQuantity: BigInt
 ): void {
-  let ownershipId = nftId + "_" + owner.toHexString();
+  let ownershipId = nftId + "-" + owner.toHexString();
   let ownership = Ownership.load(ownershipId);
 
   if (ownership == null) {

@@ -30,7 +30,7 @@ export function transferBase(
   transactionHash: Bytes
 ): void {
   let contractAddressHexString = contractAddress.toHexString();
-  let nftId = contractAddressHexString + "_" + tokenId.toString();
+  let nftId = contractAddressHexString + "-" + tokenId.toString();
   let from = fromAddress.toHex();
   let to = toAddress.toHex();
 
@@ -107,7 +107,7 @@ export function transferBase(
       upsertOwnership(nftId, fromAddress, BIG_INT_ZERO.minus(value));
 
       let fromNftContractOwner = NftContractOwner.load(
-        contractAddressHexString + "_" + from
+        contractAddressHexString + "-" + from
       );
       if (fromNftContractOwner != null) {
         // If `from` no longer has any tokens from this NFT contract, decrement
@@ -146,7 +146,7 @@ export function transferBase(
         nftContract.numTokens = nftContract.numTokens.plus(BIG_INT_ONE);
       }
 
-      let toNftContractOwnerId = contractAddressHexString + "_" + to;
+      let toNftContractOwnerId = contractAddressHexString + "-" + to;
       let toNftContractOwner = NftContractOwner.load(toNftContractOwnerId);
       if (toNftContractOwner == null) {
         toNftContractOwner = new NftContractOwner(toNftContractOwnerId);

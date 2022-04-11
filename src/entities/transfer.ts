@@ -12,11 +12,11 @@ export function upsertTransfer(
 ): void {
   let transferId =
     nftId +
-    "_" +
+    "-" +
     fromAddress.toHexString() +
-    "_" +
+    "-" +
     toAddress.toHexString() +
-    "_" +
+    "-" +
     transactionHash.toHexString();
   let transfer = Transfer.load(transferId);
 

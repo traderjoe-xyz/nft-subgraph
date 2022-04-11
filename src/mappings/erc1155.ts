@@ -40,7 +40,7 @@ export function handleTransferBatch(event: TransferBatch): void {
 
 export function handleURI(event: URI): void {
   let contractAddressHex = event.address.toHexString();
-  let id = contractAddressHex + "_" + event.params._id.toString();
+  let id = contractAddressHex + "-" + event.params._id.toString();
   let nft = Nft.load(id);
   if (nft != null) {
     nft.tokenURI = event.params._value;

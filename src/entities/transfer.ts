@@ -4,6 +4,7 @@ import { BIG_INT_ZERO } from "../constants";
 
 export function upsertTransfer(
   nftId: string,
+  nftContractId: string,
   fromAddress: Address,
   toAddress: Address,
   quantity: BigInt,
@@ -22,6 +23,7 @@ export function upsertTransfer(
 
   if (transfer == null) {
     transfer = new Transfer(transferId);
+    transfer.contract = nftContractId;
     transfer.from = fromAddress;
     transfer.nft = nftId;
     transfer.quantity = BIG_INT_ZERO;

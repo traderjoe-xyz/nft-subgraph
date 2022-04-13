@@ -33,12 +33,14 @@ type NftContract @entity {
   numTokens: BigInt!
   supportsMetadata: Boolean!
   symbol: String
+  transfers: [Transfer!]! @derivedFrom(field: "contract")
   type: NftType!
 }
 
 type Transfer @entity {
   # {contractAddress}_{tokenId}_{from}_{to}_{transactionHash}
   id: ID!
+  contract: NftContract!
   from: Bytes!
   nft: Nft!
   quantity: BigInt!

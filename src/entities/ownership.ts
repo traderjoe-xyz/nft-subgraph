@@ -20,11 +20,7 @@ export function upsertOwnership(
 
   let newQuantity = ownership.quantity.plus(deltaQuantity);
 
-  if (newQuantity.lt(BIG_INT_ZERO)) {
-    throw new Error(
-      `Received negative quantity while upsertingOwnership for owner ${owner.toHexString()} and NFT ${nftId} in txn ${transactionHash.toHexString()}`
-    );
-  } else if (newQuantity.isZero()) {
+  if (newQuantity.le(BIG_INT_ZERO)) {
     store.remove("Ownership", ownershipId);
   } else {
     ownership.quantity = newQuantity;

@@ -13,7 +13,7 @@ function upsertContractDayVolumeData(
     if (dayData == null) {
         dayData = new NftContractDayData(dayDataId);
         dayData.contract = nftContractId;
-        dayData.epochTime = dateEpochTime;
+        dayData.dateTime = dateEpochTime;
         dayData.volumeAVAX = BIG_INT_ZERO;
     }
     dayData.volumeAVAX.plus(value);
@@ -31,7 +31,7 @@ function upsertContractHourVolumeData(
     if (hourData == null) {
         hourData = new NftContractHourData(hourDataId);
         hourData.contract = nftContractId;
-        hourData.epochTime = hourEpochTime;
+        hourData.dateTime = hourEpochTime;
         hourData.volumeAVAX = BIG_INT_ZERO;
     }
     hourData.volumeAVAX.plus(value);
@@ -42,7 +42,7 @@ export function upsertContractVolumeData(
     nftContractId: string,
     value: BigInt,
     timestamp: BigInt
-) {
+): void {
     upsertContractDayVolumeData(nftContractId, value, timestamp);
     upsertContractHourVolumeData(nftContractId, value, timestamp);
 }

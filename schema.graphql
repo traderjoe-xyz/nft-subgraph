@@ -71,7 +71,7 @@ type NftContractDayData @entity {
   # {contractAddress}-{dateInEpochTime}
   id: ID!
   contract: NftContract!
-  epochTime: Int!
+  dateTime: Int!
   volumeAVAX: BigInt!
 }
 
@@ -79,7 +79,7 @@ type NftContractHourData @entity {
   # {contractAddress}-{hourInEpochTime}
   id: ID!
   contract: NftContract!
-  epochTime: Int!
+  dateTime: Int!
   volumeAVAX: BigInt!
 }
 

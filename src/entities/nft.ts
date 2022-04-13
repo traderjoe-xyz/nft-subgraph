@@ -72,6 +72,7 @@ export function transferBase(
     }
 
     nftContract = new NftContract(contractAddressHexString);
+    nftContract.createdAt = timestamp;
     nftContract.type = supportsERC721 ? ERC721_TYPE : ERC1155_TYPE;
     nftContract.supportsMetadata = supportsInterface(
       erc165Contract,

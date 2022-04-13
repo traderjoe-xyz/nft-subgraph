@@ -35,6 +35,8 @@ type NftContract @entity {
   symbol: String
   transfers: [Transfer!]! @derivedFrom(field: "contract")
   type: NftType!
+  dayData: [NftContractDayData!]! @derivedFrom(field: "contract")
+  hourData: [NftContractHourData!]! @derivedFrom(field: "contract")
 }
 
 type Transfer @entity {
@@ -63,6 +65,22 @@ type NftContractOwner @entity {
   owner: Bytes!
   contract: NftContract!
   quantity: BigInt!
+}
+
+type NftContractDayData @entity {
+  # {contractAddress}-{dateInEpochTime}
+  id: ID!
+  contract: NftContract!
+  epochTime: Int!
+  volumeAVAX: BigInt!
+}
+
+type NftContractHourData @entity {
+  # {contractAddress}-{hourInEpochTime}
+  id: ID!
+  contract: NftContract!
+  epochTime: Int!
+  volumeAVAX: BigInt!
 }
 
 enum NftType {

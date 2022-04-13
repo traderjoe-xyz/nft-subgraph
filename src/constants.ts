@@ -1,4 +1,4 @@
-import { Address, BigDecimal, BigInt } from "@graphprotocol/graph-ts";
+import { Address, BigInt } from "@graphprotocol/graph-ts";
 
 // consts
 export const ZERO_ADDRESS_STRING = "0x0000000000000000000000000000000000000000";

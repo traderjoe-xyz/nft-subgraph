@@ -19,6 +19,7 @@ import {
 import { supportsInterface, normalize } from "../utils";
 import { upsertOwnership } from "./ownership";
 import { upsertTransfer } from "./transfer";
+import { upsertContractVolumeData } from "./volume";
 
 export function transferBase(
   contractAddress: Address,
@@ -187,6 +188,7 @@ export function transferBase(
       timestamp,
       transactionHash
     );
+    upsertContractVolumeData(nftContract.id, value, timestamp);
   }
   nftContract.save();
 }

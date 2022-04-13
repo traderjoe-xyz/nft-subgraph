@@ -26,6 +26,7 @@ type Nft @entity {
 type NftContract @entity {
   # {contractAddress}
   id: ID!
+  createdAt: BigInt!
   name: String
   nfts: [Nft!]! @derivedFrom(field: "contract")
   numOwners: BigInt!

@@ -180,6 +180,7 @@ export function transferBase(
 
     upsertTransfer(
       nftId,
+      nftContract.id,
       fromAddress,
       toAddress,
       value,

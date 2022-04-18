@@ -118,6 +118,8 @@ export function transferBase(
       }
     }
 
+    nft.updatedAt = timestamp;
+
     if (from != ZERO_ADDRESS_STRING) {
       // Is existing NFT
       upsertOwnership(

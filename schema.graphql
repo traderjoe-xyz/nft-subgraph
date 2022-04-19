@@ -21,6 +21,7 @@ type Nft @entity {
   ownership: [Ownership!]! @derivedFrom(field: "nft")
   tokenID: BigInt!
   tokenURI: String
+  updatedAt: BigInt!
 }
 
 type NftContract @entity {

@@ -12,7 +12,7 @@ type _Schema_
   )
 
 type Nft @entity {
-  # {contractAddress}_{tokenId}
+  # {contractAddress}-{tokenId}
   id: ID!
   burnedAt: BigInt
   contract: NftContract!
@@ -39,7 +39,7 @@ type NftContract @entity {
 }
 
 type Transfer @entity {
-  # {contractAddress}_{tokenId}_{from}_{to}_{transactionHash}
+  # {contractAddress}-{tokenId}-{from}-{to}-{transactionHash}
   id: ID!
   contract: NftContract!
   from: Bytes!
@@ -51,7 +51,7 @@ type Transfer @entity {
 }
 
 type Ownership @entity {
-  # {contractAddress}_{tokenId}_{ownerAddress}
+  # {contractAddress}-{tokenId}-{ownerAddress}
   id: ID!
   owner: Bytes!
   nft: Nft!
@@ -59,7 +59,7 @@ type Ownership @entity {
 }
 
 type NftContractOwner @entity {
-  # {contractAddress}_{owner}
+  # {contractAddress}-{owner}
   id: ID!
   owner: Bytes!
   contract: NftContract!

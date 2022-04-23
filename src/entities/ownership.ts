@@ -6,6 +6,7 @@ export function upsertOwnership(
   nftId: string,
   owner: Address,
   deltaQuantity: BigInt,
+  timestamp: BigInt,
   transactionHash: Bytes
 ): void {
   let ownershipId = nftId + "-" + owner.toHexString();
@@ -24,6 +25,7 @@ export function upsertOwnership(
     store.remove("Ownership", ownershipId);
   } else {
     ownership.quantity = newQuantity;
+    ownership.updatedAt = timestamp
     ownership.save();
   }
 }

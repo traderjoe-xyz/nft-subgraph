@@ -56,6 +56,7 @@ type Ownership @entity {
   owner: Bytes!
   nft: Nft!
   quantity: BigInt!
+  updatedAt: BigInt!
 }
 
 type NftContractOwner @entity {

@@ -126,6 +126,7 @@ export function transferBase(
         nftId,
         fromAddress,
         BIG_INT_ZERO.minus(value),
+        timestamp,
         transactionHash
       );
 
@@ -146,7 +147,7 @@ export function transferBase(
 
     if (to != ZERO_ADDRESS_STRING) {
       // Either a transfer or mint
-      upsertOwnership(nftId, toAddress, value, transactionHash);
+      upsertOwnership(nftId, toAddress, value, timestamp, transactionHash);
 
       if (from == ZERO_ADDRESS_STRING) {
         // Mint

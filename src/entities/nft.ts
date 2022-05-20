@@ -92,6 +92,19 @@ export function transferBase(
         nftContract.symbol = normalize(symbol.value);
       }
     }
+
+    // opportunistically try to get name and symbol
+    // strictly speaking, ERC1155 store this in URI
+    if (supportsERC1155 && nftContract.supportsMetadata) {
+      let name = erc721Contract.try_name();
+      if (!name.reverted) {
+        nftContract.name = normalize(name.value);
+      }
+      let symbol = erc721Contract.try_symbol();
+      if (!symbol.reverted) {
+        nftContract.symbol = normalize(symbol.value);
+      }
+    }
   }
 
   if (from != ZERO_ADDRESS_STRING || to != ZERO_ADDRESS_STRING) {

@@ -40,10 +40,6 @@ export function transferBase(
 
   let nftContract = NftContract.load(contractAddressHexString);
   if (nftContract == null) {
-    let supportsERC165Identifier = supportsInterface(
-      erc165Contract,
-      ERC_165_IDENTIFIER
-    );
     let supportsERC721Identifier = supportsInterface(
       erc165Contract,
       ERC_721_IDENTIFIER
@@ -52,20 +48,9 @@ export function transferBase(
       erc165Contract,
       ERC_1155_IDENTIFIER
     );
-    let supportsNullIdentifierFalse = supportsInterface(
-      erc165Contract,
-      NULL_IDENTIFIER,
-      false
-    );
 
-    let supportsERC721 =
-      supportsERC165Identifier &&
-      supportsERC721Identifier &&
-      supportsNullIdentifierFalse;
-    let supportsERC1155 =
-      supportsERC165Identifier &&
-      supportsERC1155Identifier &&
-      supportsNullIdentifierFalse;
+    let supportsERC721 = supportsERC721Identifier;
+    let supportsERC1155 = supportsERC1155Identifier;
 
     if (!supportsERC721 && !supportsERC1155) {
       return;
